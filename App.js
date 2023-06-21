@@ -1,66 +1,126 @@
-import React,{useEffect} from 'react';
+import * as React from 'react';
+import { Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-import { Avatar, Card, Button } from 'react-native-elements';
-import LoginScreen from './screens/Login';
-import DashboardScreen from './screens/Dashboard';
-import Header from './screens/Header';
-import { View } from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-import firebase from '@react-native-firebase/app';
-import messaging from '@react-native-firebase/messaging';
-firebase.initializeApp();
+
 const Stack = createStackNavigator();
 
+import Header from './screens/Header';
+import LoginScreen from './screens/Login';
+import DashboardScreen from './screens/Dashboard';
 
-const App = () => {
-  const isLoggedIn = true; // Set this value based on the user's login state
-  // useEffect(() => {
-  //   // Request permission to receive push notifications (optional)
-  //   messaging().requestPermission();
 
-  //   // Get the FCM token
-  //   messaging()
-  //     .getToken()
-  //     .then(token => {
-  //       console.log('FCM Token:', token);
-  //     });
+function Feed() {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center',padding:0 }}>
+      <DashboardScreen/>
+    </View>
+  );
+}
 
-  //   // Handle FCM token refresh
-  //   const unsubscribe = messaging().onTokenRefresh(token => {
-  //     console.log('FCM Token (refreshed):', token);
-  //   });
+function Profile() {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center',padding:0  }}>
+      <Text>Profile!</Text>
+    </View>
+  );
+}
 
-  //   // Clean up the event listeners when the component unmounts
-  //   return () => {
-  //     unsubscribe();
-  //   };
-  // }, []);
+function Notifications() {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center',padding:0  }}>
+      <Text>Notifications!</Text>
+    </View>
+  );
+}
 
+function Dashboard() {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center',padding:0  }}>
+      <Text>Notifications!</Text>
+    </View>
+  );
+}
+
+const Tab = createBottomTabNavigator();
+
+function MyTabs() {
+  return (
+    <Tab.Navigator
+      initialRouteName="Feed"
+      screenOptions={{
+        tabBarActiveTintColor: '#4378ef',
+      }}
+    >
+      <Tab.Screen
+      
+        name="Feed"
+        component={Feed}
+        options={{
+          header: () => <Header />,
+          tabBarLabel: 'Home',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="home" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+      
+        name="Notifications"
+        component={Notifications}
+        options={{
+          header: () => <Header />,
+          tabBarLabel: 'Notifications',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="bell" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Dashboard"
+        component={Dashboard}
+        options={{
+          header: () => <Header />,
+          tabBarLabel: 'Dashboard',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="view-dashboard" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          header: () => <Header />,
+          tabBarLabel: 'Profile',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="account" color={color} size={size} />
+          ),
+        }}
+      />
+       
+    </Tab.Navigator>
+  );
+}
+
+export default function App() {
+  const isLoggedIn = false; 
   return (
     <NavigationContainer>
+    {isLoggedIn ? (
       <Stack.Navigator>
-        {isLoggedIn ? (
-          <Stack.Screen
-            name="DashboardScreen"
-            component={DashboardScreen}
-            options={{ header: () => <Header />}} // Hide the header for the Dashboard screen
+      <Stack.Screen
+            name="Login"
+            component={LoginScreen}
+            options={{ headerShown: false }} 
           />
-        ) : (
-        
-          <>
-            
-            <Stack.Screen
-              name="Login"
-              component={LoginScreen}
-              options={{   }} // Hide the header for the Login screen
-            />
-          </>
-          
-        )}
       </Stack.Navigator>
+        ) : (
+      <MyTabs />
+      )}
     </NavigationContainer>
   );
-};
-
-export default App;
+}

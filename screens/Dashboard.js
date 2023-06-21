@@ -13,7 +13,7 @@ const DashboardScreen = () => {
 
   useEffect(() => {
     // Simulating the retrieval of user details from local storage
-    loadUserDetails();
+    // loadUserDetails();
     fetchData();
   }, []);
 

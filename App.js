@@ -107,10 +107,10 @@ function MyTabs() {
 }
 
 export default function App() {
-  const isLoggedIn = false; 
+  const isLoggedIn = false ; 
   return (
     <NavigationContainer>
-    {isLoggedIn ? (
+    {!isLoggedIn ? (
       <Stack.Navigator>
       <Stack.Screen
             name="Login"
@@ -119,7 +119,7 @@ export default function App() {
           />
       </Stack.Navigator>
         ) : (
-      <MyTabs />
+      <MyTabs/>
       )}
     </NavigationContainer>
   );

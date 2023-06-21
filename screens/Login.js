@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import axios from 'axios';
 
-
+// import { createStackNavigator, createAppContainer } from "react-navigation";
 export default class Login extends Component {
   constructor(props) {
     super(props);
@@ -20,13 +20,17 @@ export default class Login extends Component {
       userPassword: '',
       emailError:''
     };
+    const { navigation } = this.props;
+    
   }
 
   login = () => {
     const { userEmail, userPassword } = this.state;
-    const navigateToDashboard = () => {
-      navigation.navigate('DashboardScreen');
-    };
+    // this.props.navigation.navigate('DashboardScreen');
+    this.props.navigation.navigate('Feed');
+    // const navigateToDashboard = () => {
+    //   navigation.navigate('DashboardScreen');
+    // };
     const credentials = {
       username: userEmail,
       password: userPassword,
@@ -44,7 +48,8 @@ export default class Login extends Component {
         // Handle successful login response
         if (response.data.success) {
           console.log('Success login');
-          navigateToDashboard();
+          navigation.navigate('DashboardScreen');
+          //navigateToDashboard();
           // navigation.navigate("DashboardScreen");
           // this.props.navigation.navigate('DashboardScreen');
           // navigation.navigate('DashboardScreen');
